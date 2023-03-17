@@ -17,7 +17,7 @@
 
 \institute{Escuela de Ciencias Físicas y Matemática}
 \title{Proyecto 4}
-\author{Amado Cabrera, Denilson Mendoza y Mariana Muralles}
+\author{Amado Cabrera, Denilson Mendoza y Mariana Pérez}
 \id{201905757, 202005724 y 201901040}
 \date{\today}
 \course{Laboratorio de simulación}
@@ -76,10 +76,38 @@ El método de Euler es
 \subsection{Método de Taylor}
 Suponer que la solución a la ecuación
 \[ \td{y}{t} = f_{(t,y)}, \qquad a \leq t \leq b, \qquad y_{(a)} = \alpha \]
-tiene $n+1$ derivadas continuas. Empleando el $n$-ésimo polinomio de Taylor al rededor de $t_i$, expandir la solución $y_{(t)}$:
+tiene $n+1$ derivadas continuas.
+
+Derivando repetidas veces la solución se obtiene
 \begin{align*}
-    y_{(t)} &= y_{t_i} + (t-t_i)f'_{(t_i)} + \frac{f''_{(t_i)}}{2!}(t-t_i)^2 + \ldots + \frac{f^{(k)}_{(t_i)}}{k!}(t-t_i)^k
+\label{tay2.1}
+    y^{(k)}_{(t)} &= f^{(k-1)}_{(t, y_{(t)})}. \tag{2.1}
 \end{align*}
+
+Empleando el $n$-ésimo polinomio de Taylor al rededor de $t_i$, expandir la solución $y_{(t)}$ y posteriormente valuarla en $t= t_{i+1}$:
+\begin{align*}
+    y_{(t)} &= y_{t_i} + (t-t_i)y'_{(t_i)} + \frac{(t-t_i)^2}{2!}y''_{(t_i)} + \ldots + \frac{(t-t_i)^{n}}{(n)!}y^{(n)}_{(t_i)} + \frac{(t-t_i)^{n+1}}{(n+1)!}y^{(n+1)}_{(\xi_i)}\\
+    y_{(t_{i+1})} &= y_{t_i} + (t_{i+1}-t_i)y'_{(t_i)} + \frac{(t_{i+1}-t_i)^2}{2!}y''_{(t_i)} + \ldots + \frac{(t_{i+1}-t_i)^{n}}{(n)!}y^{(n)}_{(\xi_i)} + \frac{(t_{i+1}-t_i)^{n+1}}{(n+1)!}y^{(n+1)}_{(t_i)}\\
+\label{tay2.2}
+    y_{(t_{i+1})} &= y_{t_i} + hy'_{(t_i)} + \frac{h^2}{2!}y''_{(t_i)} + \ldots + \frac{h^{n}}{(n)!}y^{(n)}_{(t_i)} + \frac{h^{n+1}}{(n+1)!}y^{(n+1)}_{(\xi_i)}, \tag{2.2}
+\end{align*}
+para algún $\xi_i$ en $(t_i, t_{i+1})$.
+
+Reemplazando \eqref{tay2.1} en \eqref{tay2.2}, se consigue
+\begin{align*}
+    y_{(t_{i+1})} &= y_{t_i} + hf_{(t_i, y_{(t_i)})} + \frac{h^2}{2!}f'_{(t_i, y_{(t_i)})} + \ldots + \frac{h^{n}}{(n)!}f^{(n-1)}_{(t_i, y_{(t_i)})} + \frac{h^{n+1}}{(n+1)!}f^{(n)}_{(\xi_i), y_{(\xi_i)}}
+\end{align*}
+
+El método de Taylor de orden $n$ se consigue descartando el término restante que incluye $\xi_i$:
+\begin{align*}
+    w_0 &= \alpha\\
+    w_i{i+1} &= w_i + hT^{(n)}_{(t_i, w_i)}, \qquad \text{para cada $i = 0, 1, \ldots, N-1$}.
+\end{align*}
+donde
+\begin{align*}
+    T^{(n)}_{(t_i, w_i)} &= f_{(t_i, y_{(t_i)})} + \frac{h^2}{2!}f'_{(t_i, y_{(t_i)})} + \ldots + \frac{h^{n}}{(n)!}f^{(n-1)}_{(t_i, y_{(t_i)})} + \frac{h^{n+1}}{(n+1)!}f^{(n)}_{(\xi_i), y_{(\xi_i)}}
+\end{align*}
+
 
 \begin{algorithm}[H]
     \centering

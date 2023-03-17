@@ -3,19 +3,19 @@
 
 // Retahíla de derivadas
 double edo(double x, double y) {
-    return y - pow(x, 2) + 1;
+    return 0.16 * y;
 } 
 
 double d_edo(double x, double y) {
-    return edo(x, y) - 2*x;
+    return 0.16 * edo(x, y);
 }
 
 double dd_edo(double x, double y) {
-    return d_edo(x, y) - 2;
+    return 0.16 * d_edo(x, y);
 }
 
 double ddd_edo(double x, double y) {
-    return dd_edo(x, y);
+    return 0.16 * dd_edo(x, y);
 }
 
 
@@ -26,9 +26,9 @@ int main () {
 
     // Asignaciónes para el problema
     x_i = 0;
-    y_i = 0.5;
-    x_f = 2;
-    n = 10;
+    y_i = 367;
+    x_f = 20;
+    n = 100;
     
     // Lógica
     fptr = fopen("./data-taylor.csv", "w");

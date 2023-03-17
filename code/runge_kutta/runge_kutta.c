@@ -2,7 +2,7 @@
 #include <math.h>
 
 double edo(double x, double y) {
-    return y - pow(x, 2) + 1;
+    return 0.16*y;
 }
 
 int main () {
@@ -13,9 +13,9 @@ int main () {
 
     // Asignaciónes para el problema
     x_i = 0;
-    y_i = 0.5;
-    x_f = 2;
-    n = 10;
+    y_i = 367;
+    x_f = 20;
+    n = 100;
 
     // Lógica
     fptr = fopen("./data-runge_kutta.csv", "w");

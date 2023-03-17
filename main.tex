@@ -33,17 +33,28 @@ Escribir el \textit{abstract}
 
 \section{Marco teórico}
 \subsection{Método de Euler}
-El método de Euler permite obtener aproximaciones $w_i \approx y_{(t_i)}$ al problema de valor inicial bien planteado
-\[ \td{y}{t} = f_{(t,y)}, \qquad a \leq t \leq b, \qquad y_{(a)} = \alpha. \]
-
-Este método no brinda una aproximación continua a la solución $y_{(t)}$, sino que genera aproximaciones de $y_{(t)}$ para varios valores de $t$ en el intervalo $[a, b]$. Dichos valores, denotados como $t_i$ y llamados \textit{puntos de malla}, deben estar distribuidos equitativamente en el intervalo. Para ello, se toma un número entero positivo $N$ (que representa la cantidad de pasos en el intervalo) y se seleccionan los puntos de malla
-\[ t_i = a + ih, \qquad \text{para cada $i = 0, 1, \ldots, N$}; \]
-donde $h = (b-a)/N = t_{i+1} - t_i$ es la distancia que existe entre cada $t_i$, por lo que $h$ recibe el nombre de \textit{tamaño del paso}.
-
-
-El método de Euler es
+El método de Euler permite obtener aproximaciones $w_i \approx y_{(x_i)}$ al problema de valor inicial bien planteado
 \begin{align*}
-    w_0 &= \alpha.,\\
+\label{1.1}
+    \td{y}{t} = f_{(x,y)}, \qquad a \leq t \leq b, \qquad y_{(a)} = \alpha. \tag{1.1}
+\end{align*}
+
+Este método no brinda una aproximación continua a la solución $y_{(x)}$, sino que genera aproximaciones de $y_{(x)}$ para varios valores de $x$ en el intervalo $[a, b]$. Dichos valores, denotados como $x_i$ y llamados \textit{puntos de malla}, deben estar distribuidos equitativamente en el intervalo. Para ello, se toma un número entero positivo $N$ (que representa la cantidad de pasos en el intervalo) y se seleccionan los puntos de malla
+\[ x_i = a + ih, \qquad \text{para cada $i = 0, 1, \ldots, N$}; \]
+donde $h = (b-a)/N = x_{i+1} - x_i$ es la distancia que existe entre cada $x_i$, por lo que $h$ recibe el nombre de \textit{tamaño del paso}.
+
+Se usará el teorema de Taylor para derivar el método de Euler. Suponer que la solución de la ecuación  \eqref{1.1} tiene dos derivadas continuas en el intervalo $[a, b]$, por lo que para cada $i = 0, 1, \ldots, N-1$
+\begin{align*}
+     y_{(x)} &= y_{x_i} + (x-x_i)y'_{(x_i)} + \frac{(x-x_i)^2}{2!}y''_{(\xi_i)}.
+\end{align*} 
+Valuando la expresión en $x=x_{i+1}$:
+\begin{align*}
+     y_{(x_{i+1})} &= y_{x_i} + (x_{i+1}-x_i)y'_{(x_i)} + \frac{(x_{i+1}-x_i)^2}{2!}y''_{(\xi_i)}\\
+     &= y_{x_i} + hy'_{(x_i)} + \frac{h^2}{2!}y''_{(\xi_i)}.
+\end{align*}
+El método de Euler se consigue descartando el término restante que incluye $\xi_i$:
+\begin{align*}
+    w_0 &= \alpha,\\
     w_{i+1} &= w_i + h f_{(t_i, w_i)}, \qquad \text{para cada $i = 0, 1, \ldots, N-1$}.
 \end{align*}
 
@@ -73,39 +84,40 @@ El método de Euler es
     \label{alg:euler}
 \end{algorithm}
 
+\vspace{2em}
 \subsection{Método de Taylor}
 Suponer que la solución a la ecuación
-\[ \td{y}{t} = f_{(t,y)}, \qquad a \leq t \leq b, \qquad y_{(a)} = \alpha \]
+\[ \td{y}{x} = f_{(x,y)}, \qquad a \leq t \leq b, \qquad y_{(a)} = \alpha \]
 tiene $n+1$ derivadas continuas.
 
 Derivando repetidas veces la solución se obtiene
 \begin{align*}
 \label{tay2.1}
-    y^{(k)}_{(t)} &= f^{(k-1)}_{(t, y_{(t)})}. \tag{2.1}
+    y^{(k)}_{(x)} &= f^{(k-1)}_{(x, y_{(x)})}. \tag{2.1}
 \end{align*}
 
-Empleando el $n$-ésimo polinomio de Taylor al rededor de $t_i$, expandir la solución $y_{(t)}$ y posteriormente valuarla en $t= t_{i+1}$:
+Empleando el $n$-ésimo polinomio de Taylor al rededor de $x_i$, expandir la solución $y_{(x)}$ y posteriormente valuarla en $x= x_{i+1}$:
 \begin{align*}
-    y_{(t)} &= y_{t_i} + (t-t_i)y'_{(t_i)} + \frac{(t-t_i)^2}{2!}y''_{(t_i)} + \ldots + \frac{(t-t_i)^{n}}{(n)!}y^{(n)}_{(t_i)} + \frac{(t-t_i)^{n+1}}{(n+1)!}y^{(n+1)}_{(\xi_i)}\\
-    y_{(t_{i+1})} &= y_{t_i} + (t_{i+1}-t_i)y'_{(t_i)} + \frac{(t_{i+1}-t_i)^2}{2!}y''_{(t_i)} + \ldots + \frac{(t_{i+1}-t_i)^{n}}{(n)!}y^{(n)}_{(\xi_i)} + \frac{(t_{i+1}-t_i)^{n+1}}{(n+1)!}y^{(n+1)}_{(t_i)}\\
+    y_{(x)} &= y_{x_i} + (x-x_i)y'_{(x_i)} + \frac{(x-x_i)^2}{2!}y''_{(x_i)} + \ldots + \frac{(x-x_i)^{n}}{n!}y^{(n)}_{(x_i)} + \frac{(t-x_i)^{n+1}}{(n+1)!}y^{(n+1)}_{(\xi_i)}\\
+    y_{(x_{i+1})} &= y_{x_i} + (x_{i+1}-x_i)y'_{(x_i)} + \frac{(x_{i+1}-x_i)^2}{2!}y''_{(x_i)} + \ldots + \frac{(x_{i+1}-x_i)^{n}}{n!}y^{(n)}_{(\xi_i)} + \frac{(x_{i+1}-x_i)^{n+1}}{(n+1)!}y^{(n+1)}_{(x_i)}\\
 \label{tay2.2}
-    y_{(t_{i+1})} &= y_{t_i} + hy'_{(t_i)} + \frac{h^2}{2!}y''_{(t_i)} + \ldots + \frac{h^{n}}{(n)!}y^{(n)}_{(t_i)} + \frac{h^{n+1}}{(n+1)!}y^{(n+1)}_{(\xi_i)}, \tag{2.2}
+    y_{(x_{i+1})} &= y_{x_i} + hy'_{(x_i)} + \frac{h^2}{2!}y''_{(x_i)} + \ldots + \frac{h^{n}}{n!}y^{(n)}_{(x_i)} + \frac{h^{n+1}}{(n+1)!}y^{(n+1)}_{(\xi_i)}, \tag{2.2}
 \end{align*}
-para algún $\xi_i$ en $(t_i, t_{i+1})$.
+para algún $\xi_i$ en $(x_i, x_{i+1})$.
 
 Reemplazando \eqref{tay2.1} en \eqref{tay2.2}, se consigue
 \begin{align*}
-    y_{(t_{i+1})} &= y_{t_i} + hf_{(t_i, y_{(t_i)})} + \frac{h^2}{2!}f'_{(t_i, y_{(t_i)})} + \ldots + \frac{h^{n}}{(n)!}f^{(n-1)}_{(t_i, y_{(t_i)})} + \frac{h^{n+1}}{(n+1)!}f^{(n)}_{(\xi_i), y_{(\xi_i)}}
+    y_{(x_{i+1})} &= y_{x_i} + hf_{(x_i, y_{(x_i)})} + \frac{h^2}{2!}f'_{(x_i, y_{(x_i)})} + \ldots + \frac{h^{n}}{n!}f^{(n-1)}_{(x_i, y_{(x_i)})} + \frac{h^{n+1}}{(n+1)!}f^{(n)}_{(\xi_i, y_{(\xi_i)})}
 \end{align*}
 
 El método de Taylor de orden $n$ se consigue descartando el término restante que incluye $\xi_i$:
 \begin{align*}
     w_0 &= \alpha\\
-    w_i{i+1} &= w_i + hT^{(n)}_{(t_i, w_i)}, \qquad \text{para cada $i = 0, 1, \ldots, N-1$}.
+    w_{i+1} &= w_i + hT^{(n)}_{(x_i, w_i)}, \qquad \text{para cada $i = 0, 1, \ldots, N-1$}.
 \end{align*}
 donde
 \begin{align*}
-    T^{(n)}_{(t_i, w_i)} &= f_{(t_i, y_{(t_i)})} + \frac{h^2}{2!}f'_{(t_i, y_{(t_i)})} + \ldots + \frac{h^{n}}{(n)!}f^{(n-1)}_{(t_i, y_{(t_i)})} + \frac{h^{n+1}}{(n+1)!}f^{(n)}_{(\xi_i), y_{(\xi_i)}}
+    T^{(n)}_{(x_i, w_i)} &= f_{(x_i, y_{(x_i)})} + \frac{h}{2!}f'_{(x_i, y_{(x_i)})} + \ldots + \frac{h^{n-1}}{n!}f^{(n-1)}_{(x_i, y_{(x_i)})} 
 \end{align*}
 
 
@@ -147,11 +159,29 @@ donde
     \label{alg:taylor}
 \end{algorithm}
 
+\vspace{2em}
 \subsection{Método de Runge-Kutta}
-Los métodos de Runge-Kutta tienen el error de truncamiento local de alto orden de los métodos de Taylor pero elimina la necesidad de calcular y evaluar las derivadas de f (t, y). antes de presentar las ideas detrás de su derivación, necesitamos considerar el Teorema de Taylor en dos variables. La prueba de este resultado se puede encontrar en cualquier libro estándar sobre cálculo avanzado.
+Los métodos de Runge-Kutta tienen el error de truncamiento local de alto orden de los métodos de Taylor pero elimina la necesidad de calcular y evaluar las derivadas de $f(t, y)$. Antes de presentar las ideas detrás de su derivación, necesitamos considerar el Teorema de Taylor en dos variables. La prueba de este resultado se puede encontrar en cualquier libro estándar sobre cálculo avanzado.
 
-\subsubsection{Teorema}
-Suponga que $f (t, y)$ y todas sus derivadas parciales de orden menor o igual a $n + 1$ son continua en $ D = \{(t, y) | a \leq t \leq b, c \leq y \leq d\}$, y sea $(t_0,y_0)$ $\in D$. Para cada $(t, y) \in D$, existe $\xi$ entre $t$  y $t_0$ y $\mu$ entre  $y$ y $y_0$ con
+\begin{theorem}
+Suponga que $f (t, y)$ y todas sus derivadas parciales de orden menor o igual a $n + 1$ son continua en $ D = \{(t, y)\:|\:a \leq t \leq b,\, c \leq y \leq d\}$, y sea $(t_0,y_0)$ $\in D$. Para cada $(t, y) \in D$, existe $\xi$ entre $t$  y $t_0$ y $\mu$ entre  $y$ y $y_0$ con
+\end{theorem}
+
+Para derivar el método de Runge-Kutta de cuarto orden, se requiere hallar valores de $a_1$, $\alpha_1$ y $\beta_1$ tales que $f_{(x + \alpha_1, y + \beta_1)}$ aproxime a
+\begin{align*}
+    T^{(n)}_{(x, y)} = f_{(x, y)} + \frac{h}{2}f'_{(x, y)}
+\end{align*}
+\begin{align*}
+    w_0 &= \alpha\\
+    w_{i+1} &= sw_i + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4), \qquad \text{para cada $i= 0, 1, \ldots, N-1;$}
+\end{align*}
+donde
+\begin{align*}
+    k_1 &= hf_{(x_i, w_i)}\\
+    k_2 &= hf_{(x_i + \frac{h}{2}, w_i + \frac{1}{2}k_1)}\\
+    k_3 &= hf_{(x_i + \frac{h}{2}, w_i + \frac{1}{2}k_2)}\\
+    k_4 &= hf_{(x_{i+1}, w_i + k_3)}
+\end{align*}
 
 \begin{algorithm}[H]
     \centering
@@ -184,6 +214,6 @@ Suponga que $f (t, y)$ y todas sus derivadas parciales de orden menor o igual a 
 \end{algorithm}
 
 \section{Resultados}
-
+% (\$|\\begin\{align\*\})[(.*)t(.*)]+(\$|\\end\{align\*\})
 
 \end{document}

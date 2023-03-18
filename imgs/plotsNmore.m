@@ -139,7 +139,7 @@ rungekutta[[;;,2;;]]
 },
 BaseStyle->texStyle,
 AxesLabel->(MaTeX[#,FontSize->16]&/@{"x","y"}),
-PlotLegends->Placed[LineLegend[{"Euler","Taylor","Runge-Kutta"},LegendFunction->Panel],{0.2,0.85}]
+PlotLegends->Placed[LineLegend[{"Euler","Taylor","Runge-Kutta"},LegendFunction->Panel],{0.2,0.8}]
 ]
 
 

@@ -39,7 +39,7 @@ Este proyecto de clase consistió en aplicar y comparar tres métodos numéricos
 El método de Euler permite obtener aproximaciones $w_i \approx y_{(x_i)}$ al problema de valor inicial bien planteado
 \begin{align*}
 \label{1.1}
-    \td{y}{t} = f_{(x,y)}, \qquad a \leq t \leq b, \qquad y_{(a)} = \alpha. \tag{1.1}
+    \td{y}{x} = f_{(x,y)}, \qquad a \leq x \leq b; \qquad y_{(a)} = \alpha. \tag{1.1}
 \end{align*}
 
 Este método no brinda una aproximación continua a la solución $y_{(x)}$, sino que genera aproximaciones de $y_{(x)}$ para varios valores de $x$ en el intervalo $[a, b]$. Dichos valores, denotados como $x_i$ y llamados \textit{puntos de malla}, deben estar distribuidos equitativamente en el intervalo. Para ello, se toma un número entero positivo $N$ (que representa la cantidad de pasos en el intervalo) y se seleccionan los puntos de malla
@@ -90,7 +90,7 @@ El método de Euler se consigue descartando el término restante que incluye $\x
 \vspace{1em}
 \subsection{Método de Taylor}
 Suponer que la solución a la ecuación
-\[ \td{y}{x} = f_{(x,y)}, \qquad a \leq t \leq b, \qquad y_{(a)} = \alpha \]
+\[ \td{y}{x} = f_{(x,y)}, \qquad a \leq x \leq b; \qquad y_{(a)} = \alpha \]
 tiene $n+1$ derivadas continuas.
 
 Derivando repetidas veces la solución se obtiene
@@ -179,9 +179,9 @@ El método de Runge--Kutta de cuarto orden es el método más utilizado y está 
 \end{align*}
 donde
 \begin{align*}
-    k_1 &= hf_{(x_i, w_i)},\\
+    k_1 &= hf_{(x_i, w_i)}, \\
     k_2 &= hf_{(x_i + \frac{h}{2}, w_i + \frac{1}{2}k_1)},\\
-    k_3 &= hf_{(x_i + \frac{h}{2}, w_i + \frac{1}{2}k_2)},\\
+    k_3 &= hf_{(x_i + \frac{h}{2}, w_i + \frac{1}{2}k_2)}, \\
     k_4 &= hf_{(x_{i+1}, w_i + k_3)}.
 \end{align*}
 
@@ -217,7 +217,36 @@ donde
 \end{algorithm}
 
 \section{Resultados}
+Los métodos numéricos fueron todos implementados en el lenguaje de programación C, todos para resolver la ecuación diferencial ordinaria (EDO) de crecimiento poblacional,
+
+\[ \td{y}{x} = 0.16y_{(x)}, \quad 0\leq x\leq 20;\] 
+\[ y_{(0)} = 367. \]
+
+Para automatizar el proceso de testeo y depuración de cada uno de los códigos se escribió un \textit{script} en Bash, que se encargaba de compilar, ejecutar y colocar los datos resultantes de los cálculos llevados a cabo por cada método.
+
+Para los cálculos del error entre el valor real y los métodos numéricos se utilizó Mathematica, más concretamente un archivo \texttt{.m} (\textit{scripts} de Mathematica) para poder ejecutar el programa desde terminal y facilitar su automatización (aunque requiere el paquete \texttt{MaTeX} para ejecutarse correctamente). Aprovechando la facilidad de trabajar datos en Mathematica se utilizó también para visualizar datos en tablas y dar una buena presentación de los mismos.
+
+Por último, todo lo anteriormente recopilado se utilizó para realizar el presente reporte en \LaTeX{}. Aquí se usaron algunos archivos auxiliares para estilizar el documento, configurar paquetes y componer las tablas por medio de los archivos \texttt{.csv}. Haciendo uso también de la herramienta de manejo de versiones Git, para que todo el equipo pudiera trabajar a la vez en el proyecto (\href{https://github.com/AmadoCab/Proyecto4LabSimu}{\sffamily enlace repositorio}).
+
+(Cabe mencionar que en el repositorio todos los \textit{commits} fueron realizados desde una misma cuenta ya que las herramientas para trabajar en Git que se utilizaron lo permitieron de esa manera.)
+
+\vspace{0.5em}
 \subsection{Tabulación de datos obtenidos}
+La última columna de las tablas a continuación muestra que el método de Euler es el que devuelve los valores más alejados del valor real de la solución de la EDO.
+
+Ya que los resultados en las tablas fueron redondeados a 3 cifras significativas, parece que el error para los métodos de Taylor y Runge--Kutta es igual. Si se incrementa a 9 cifras significativas, es posible apreciar la diferencia.
+
+\[ 
+\begin{array}{r@{\ }l}
+\text{Método de Taylor:}& \num{0.000 245 132 092},\\
+\text{Método de Runge--Kutta:}& \num{0.000 245 132 091}.
+\end{array}
+\]
+
+Con lo anterior puede verificarse que para esta EDO de crecimiento poblacional, el método que brinda las mejores aproximaciones es el de Runge--Kutta.
+
+\begin{center}
+\begin{minipage}{.45\textwidth}
 \begin{table}[H]
     \centering
     \begin{tabular}{c|ccc}
@@ -228,7 +257,9 @@ donde
     \caption{Datos obtenidos por el método de Euler.}
     \label{tab:euler}
 \end{table}
-
+\end{minipage}
+\hfill
+\begin{minipage}{.45\textwidth}
 \begin{table}[H]
     \centering
     \begin{tabular}{c|ccc}
@@ -236,9 +267,13 @@ donde
     \hline\\[-.9em]
     \input{|python3 data/tabulardatos.py "data/data-taylorEr.csv"}
     \end{tabular}
-    \caption{Datos obtenidos por el método de Taylor de cuarto orden.}
+    \caption{Datos obtenidos por el método de Taylor.}
     \label{tab:taylor}
 \end{table}
+\end{minipage}
+\end{center}
+
+\vspace{1em}
 
 \begin{table}[H]
     \centering
@@ -247,12 +282,14 @@ donde
     \hline\\[-.9em]
     \input{|python3 data/tabulardatos.py "data/data-rungekuttaEr.csv"}
     \end{tabular}
-    \caption{Datos obtenidos por el método de Runge--Kutta de cuarto orden.}
+    \caption{Datos obtenidos por el método de Runge--Kutta.}
     \label{tab:runge-kutta}
 \end{table}
 
-\vspace{1em}
-\subsection[Gráfica del error después de 100 iteraciones]{Gráfica del error $\boldsymbol{\varepsilon_{100}}$}
+\vspace{0.5em}
+\subsection[Gráfica comparativa de las soluciones]{Gráfica comparativa de las soluciones $\boldsymbol{y_{(x)}}$}
+En esta gráfica no es posible apreciar la curva para el error empleando el método de Taylor porque esta coincide en gran medida con la curva para el error empleando el método de Runge--Kutta.
+
 \begin{figure}[H]
     \centering
     \includegraphics{imgs/plot-comp.pdf}
@@ -260,9 +297,12 @@ donde
     \label{fig:comp}
 \end{figure}
 
-
 \vspace{1em}
 \subsection[Gráficas del error]{Gráficas del error $\boldsymbol{\varepsilon_{(x_i)}}$}
+Por la forma de la EDO, los errores al aplicar los tres métodos crece de forma exponencial, tal y como puede apreciarse en las gráficas.
+
+La figura \ref{fig:euler} muestra que el error del método de Euler es mucho más grande que el de los otros dos métodos (siendo las gráficas de estos muy similares). Lo anterior puede ser fácilmente verificado observando la escala.
+
 \begin{figure}[H]
     \centering
     \includegraphics{imgs/plot-euler.pdf}

@@ -93,7 +93,7 @@ Export[pwd<>"/../data/data-rungekuttaEr.csv",(rungekutta\[Transpose]~Join~{runge
 eulerG=ListLinePlot[eulerEr,
 BaseStyle->texStyle,
 PlotLabel->"Error en el m\[EAcute]todo de Euler",
-AxesLabel->(MaTeX[#,FontSize->16]&/@{"x","\\varepsilon"}),
+AxesLabel->(MaTeX[#,FontSize->16]&/@{"i","\\varepsilon"}),
 Mesh->All]
 
 
@@ -107,7 +107,7 @@ Export[pwd<>"/plot-euler.pdf",eulerG]
 taylorG=ListLinePlot[taylorEr,
 BaseStyle->texStyle,
 PlotLabel->"Error en el m\[EAcute]todo de Taylor",
-AxesLabel->(MaTeX[#,FontSize->16]&/@{"x","\\varepsilon"}),
+AxesLabel->(MaTeX[#,FontSize->16]&/@{"i","\\varepsilon"}),
 Mesh->All]
 
 
@@ -121,7 +121,7 @@ Export[pwd<>"/plot-taylor.pdf",taylorG]
 rungekuttaG=ListLinePlot[rungekuttaEr,
 BaseStyle->texStyle,
 PlotLabel->"Error en el m\[EAcute]todo de Runge-Kutta",
-AxesLabel->(MaTeX[#,FontSize->16]&/@{"x","\\varepsilon"}),
+AxesLabel->(MaTeX[#,FontSize->16]&/@{"i","\\varepsilon"}),
 Mesh->All]
 
 

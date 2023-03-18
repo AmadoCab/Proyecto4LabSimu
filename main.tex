@@ -1,7 +1,9 @@
-\documentclass[english,spanish,Ce-table,Ce-theorem]{CabesHW}
+\documentclass[
+    english, spanish, Ce-table, Ce-theorem
+]{CabesHW}
 \usepackage[utf8]{inputenc}
 \usepackage{parskip}
-\usepackage{babel}
+\usepackage[es-tabla]{babel}
 \usepackage{hyperref}
 \usepackage{algpseudocodex}
 \usepackage{minted}
@@ -31,6 +33,7 @@
 Este proyecto de clase consistió en aplicar y comparar tres métodos numéricos para resolver ecuaciones diferenciales ordinarias: Euler, Taylor y Runge--Kutta, siendo estos dos últimos de cuarto orden. El objetivo de este proyecto era analizar el rendimiento de estos métodos al comparar su precisión. Para cada método, se escribió un programa en C para calcular el valor de una ecuación de crecimiento poblacional. A continuación, los programas fueron probados y comparados. El método de Euler, que es un método de primer orden, resultó ser el menos preciso y eficiente de los tres métodos. El método de Taylor, que es un método de orden superior, era más preciso pero es más complejo de calcular. Por último, el método Runge--Kutta, que es un método de cuarto orden, resultó ser el más preciso y eficaz de los tres.
 \end{abstract}
 
+\vspace{0.5em}
 \section{Marco teórico}
 \subsection{Método de Euler}
 El método de Euler permite obtener aproximaciones $w_i \approx y_{(x_i)}$ al problema de valor inicial bien planteado
@@ -58,7 +61,7 @@ El método de Euler se consigue descartando el término restante que incluye $\x
     w_{i+1} &= w_i + h f_{(t_i, w_i)}, \qquad \text{para cada $i = 0, 1, \ldots, N-1$}.
 \end{align*}
 
-
+\subsubsection{Pseudo--código}
 \begin{algorithm}[H]
     \centering
     \begin{myalg}[1]
@@ -84,7 +87,7 @@ El método de Euler se consigue descartando el término restante que incluye $\x
     \label{alg:euler}
 \end{algorithm}
 
-\vspace{2em}
+\vspace{1em}
 \subsection{Método de Taylor}
 Suponer que la solución a la ecuación
 \[ \td{y}{x} = f_{(x,y)}, \qquad a \leq t \leq b, \qquad y_{(a)} = \alpha \]
@@ -120,7 +123,7 @@ donde
     T^{(n)}_{(x_i, w_i)} &= f_{(x_i, y_{(x_i)})} + \frac{h}{2!}f'_{(x_i, y_{(x_i)})} + \ldots + \frac{h^{n-1}}{n!}f^{(n-1)}_{(x_i, y_{(x_i)})} .
 \end{align*}
 
-
+\subsubsection{Pseudo--código}
 \begin{algorithm}[H]
     \centering
     \begin{myalg}[1]
@@ -159,16 +162,9 @@ donde
     \label{alg:taylor}
 \end{algorithm}
 
-\vspace{2em}
+\vspace{1em}
 \subsection{Método de Runge--Kutta}
 Los métodos de Runge-Kutta tienen el error de truncamiento local de alto orden de los métodos de Taylor, pero eliminan la necesidad de calcular y evaluar las derivadas de $f_{(t, y)}$.
-% Antes de presentar las ideas detrás de su derivación, necesitamos considerar el Teorema de Taylor en dos variables. La prueba de este resultado se puede encontrar en cualquier libro estándar sobre cálculo avanzado.
-
-% \begin{theorem}
-% Suponga que $f (t, y)$ y todas sus derivadas parciales de orden menor o igual a $n + 1$ son continua en $ D = \{(t, y)\:|\:a \leq t \leq b,\, c \leq y \leq d\}$, y sea $(t_0,y_0)$ $\in D$. Para cada $(t, y) \in D$, existe $\xi$ entre $t$  y $t_0$ y $\mu$ entre  $y$ y $y_0$ con
-% \end{theorem}
-
-%------------------------------------------------------------
 
 El método de Runge--Kutta de orden $n$ se deriva a partir de aproximar
 \begin{align*}
@@ -189,6 +185,7 @@ donde
     k_4 &= hf_{(x_{i+1}, w_i + k_3)}.
 \end{align*}
 
+\subsubsection{Pseudo--código}
 \begin{algorithm}[H]
     \centering
     \begin{myalg}[1]
@@ -220,25 +217,61 @@ donde
 \end{algorithm}
 
 \section{Resultados}
-Euler
-\begin{tabular}{c|ccc}
-$i$ & $x_i$ & $y_i$ & $\varepsilon_i$\\[.1em]
-\hline\\[-.9em]
-\input{|python3 data/tabulardatos.py "data/data-eulerEr.csv"}
-\end{tabular}
+\subsection{Tabulación de datos obtenidos}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|ccc}
+    $i$ & $x_i$ & $y_i$ & $\varepsilon_i$\\[.1em]
+    \hline\\[-.9em]
+    \input{|python3 data/tabulardatos.py "data/data-eulerEr.csv"}
+    \end{tabular}
+    \caption{Datos obtenidos por el método de Euler.}
+    \label{tab:euler}
+\end{table}
 
-Taylor
-\begin{tabular}{c|ccc}
-$i$ & $x_i$ & $y_i$ & $\varepsilon_i$\\[.1em]
-\hline\\[-.9em]
-\input{|python3 data/tabulardatos.py "data/data-taylorEr.csv"}
-\end{tabular}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|ccc}
+    $i$ & $x_i$ & $y_i$ & $\varepsilon_i$\\[.1em]
+    \hline\\[-.9em]
+    \input{|python3 data/tabulardatos.py "data/data-taylorEr.csv"}
+    \end{tabular}
+    \caption{Datos obtenidos por el método de Taylor de cuarto orden.}
+    \label{tab:taylor}
+\end{table}
 
-Runge--Kutta
-\begin{tabular}{c|ccc}
-$i$ & $x_i$ & $y_i$ & $\varepsilon_i$\\[.1em]
-\hline\\[-.9em]
-\input{|python3 data/tabulardatos.py "data/data-rungekuttaEr.csv"}
-\end{tabular}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|ccc}
+    $i$ & $x_i$ & $y_i$ & $\varepsilon_i$\\[.1em]
+    \hline\\[-.9em]
+    \input{|python3 data/tabulardatos.py "data/data-rungekuttaEr.csv"}
+    \end{tabular}
+    \caption{Datos obtenidos por el método de Runge--Kutta de cuarto orden.}
+    \label{tab:runge-kutta}
+\end{table}
+
+\vspace{2em}
+\subsection[Gráficas del error]{Gráficas del error $\boldsymbol{\varepsilon_{(x_i)}}$}
+\begin{figure}[H]
+    \centering
+    \includegraphics{imgs/plot-euler.pdf}
+    \caption{Gráfica del error para el método de Euler.}
+    \label{fig:euler}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{imgs/plot-taylor.pdf}
+    \caption{Gráfica del error para el método de Taylor de cuarto orden.}
+    \label{fig:taylor}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{imgs/plot-runge_kutta.pdf}
+    \caption{Gráfica del error para el método de Runge--Kutta.}
+    \label{fig:runge_kutta}
+\end{figure}
 
 \end{document}
